@@ -12,8 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.bariscanyilmaz.musicplayer.view.R;
-import com.bariscanyilmaz.musicplayer.view.databinding.FragmentMainBinding;
+import com.bariscanyilmaz.musicplayer.R;
+import com.bariscanyilmaz.musicplayer.databinding.FragmentMainBinding;
 
 /**
  * A placeholder fragment containing a simple view.
