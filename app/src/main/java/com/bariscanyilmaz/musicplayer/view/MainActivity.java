@@ -1,8 +1,12 @@
-package com.bariscanyilmaz.musicplayer;
+package com.bariscanyilmaz.musicplayer.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import com.bariscanyilmaz.musicplayer.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -11,4 +15,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
+
+
 }
