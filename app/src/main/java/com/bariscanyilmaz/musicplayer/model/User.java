@@ -8,21 +8,25 @@ import androidx.room.PrimaryKey;
 public class User {
 
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    public int id;
 
     @ColumnInfo(name = "email")
-    private String email;
+    public String email;
 
     @ColumnInfo(name = "password")
-    private String password;
+    public String password;
 
     @ColumnInfo(name = "fullname")
-    private String fullname;
+    public String fullname;
 
 
     public User(String email,String password,String fullname){
         this.email=email;
         this.password=password;
         this.fullname=fullname;
+    }
+
+    public boolean checkPassword(String password){
+        return this.password.equals(password);
     }
 }
