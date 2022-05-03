@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.bariscanyilmaz.musicplayer.databinding.ActivityLoginBinding;
 import com.bariscanyilmaz.musicplayer.model.User;
-import com.bariscanyilmaz.musicplayer.roomdb.UserDatabase;
+import com.bariscanyilmaz.musicplayer.roomdb.AppDatabase;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -22,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     private ActivityLoginBinding binding;
 
-    private UserDatabase db;
+    private AppDatabase db;
     private int loginTry;
 
     final String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
         binding=ActivityLoginBinding.inflate(getLayoutInflater());
         View view=binding.getRoot();
         setContentView(view);
-        db= Room.databaseBuilder(getApplicationContext(),UserDatabase.class,"user-db").allowMainThreadQueries().build();
+        db= Room.databaseBuilder(getApplicationContext(), AppDatabase.class,"app-db").allowMainThreadQueries().build();
 
         binding.loginUserPassword.addTextChangedListener(textWatcher);
         binding.loginUserEmail.addTextChangedListener(textWatcher);
