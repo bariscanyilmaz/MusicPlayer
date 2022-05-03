@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.ui.main.PlayerFragment">
+
+    <ImageView
+        android:id="@+id/playerSongAlbumCover"
+        android:layout_width="104dp"
+        android:layout_height="97dp"
+        android:layout_marginStart="141dp"
+        android:layout_marginTop="88dp"
+        android:layout_marginEnd="142dp"
+        android:background="@drawable/ic_launcher_background"
+        android:foreground="@drawable/ic_launcher_foreground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+
+    <ImageButton
+        android:id="@+id/playerNext"
+        android:layout_width="56dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="76dp"
+        android:onClick="nextButton"
+        android:src="@android:drawable/ic_media_next"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playerSongAlbumCover"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <ImageButton
+        android:id="@+id/playerPrevious"
+        android:layout_width="56dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="100dp"
+        android:onClick="prevButton"
+        android:src="@android:drawable/ic_media_previous"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playerSongAlbumCover"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <ImageButton
+        android:id="@+id/playerPlayPause"
+        android:layout_width="90dp"
+        android:layout_height="77dp"
+        android:layout_marginTop="88dp"
+        android:onClick="playButton"
+        android:src="@android:drawable/ic_media_play"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playerSongAlbumCover"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <SeekBar
+        android:id="@+id/playerSeekBar"
+        android:layout_width="303dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="54dp"
+        android:layout_marginTop="51dp"
+        android:layout_marginEnd="54dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playerPlayPause" />
+
+    <TextView
+        android:id="@+id/playerSong"
+        android:layout_width="wrap_content"
+        android:layout_height="19dp"
+        android:layout_marginStart="169dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="169dp"
+        android:text="Song Name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playerSongAlbumCover" />
+
+    <TextView
+        android:id="@+id/playerArtist"
+        android:layout_width="wrap_content"
+        android:layout_height="19dp"
+        android:layout_marginStart="188dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="189dp"
+        android:text="Artist"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playerSongAlbumCover" />
+</androidx.constraintlayout.widget.ConstraintLayout>
