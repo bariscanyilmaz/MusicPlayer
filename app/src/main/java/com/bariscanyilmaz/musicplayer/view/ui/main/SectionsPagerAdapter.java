@@ -27,11 +27,16 @@ public class SectionsPagerAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        return PlaceholderFragment.newInstance(position);
+        if (position==0){
+            return PlayListFragment.newInstance();
+        }else if(position==1){
+            return  SongFragment.newInstance();
+        }
+        return PlayerFragment.newInstance();
     }
 
     @Override
     public int getItemCount() {
-        return 2;
+        return 3;
     }
 }
