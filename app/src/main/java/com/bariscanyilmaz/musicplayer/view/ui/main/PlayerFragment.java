@@ -44,6 +44,8 @@ public class PlayerFragment extends Fragment {
         return root;
     }
 
+    //TODO change ui and listener and button functionalities
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

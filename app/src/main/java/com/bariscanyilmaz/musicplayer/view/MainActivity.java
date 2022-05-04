@@ -43,6 +43,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
 
+
     private final MediaPlayer mediaPlayer=MediaPlayerController.getInstance();
 
     int currentSongIndex;
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        //TODO check permissions runtime
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
