@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/ylmaz/source/repos/Android/MusicPlayer/app/src/main/res/drawable/ic_baseline_music_note.xml" value="0.2075" />
+        <entry key="..\:/Users/ylmaz/source/repos/Android/MusicPlayer/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2075" />
         <entry key="..\:/Users/ylmaz/source/repos/Android/MusicPlayer/app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="..\:/Users/ylmaz/source/repos/Android/MusicPlayer/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/Users/ylmaz/source/repos/Android/MusicPlayer/app/src/main/res/layout/activity_register.xml" value="0.1" />
@@ -10,6 +12,10 @@
         <entry key="..\:/Users/ylmaz/source/repos/Android/MusicPlayer/app/src/main/res/layout/fragment_play_list.xml" value="0.2" />
         <entry key="..\:/Users/ylmaz/source/repos/Android/MusicPlayer/app/src/main/res/layout/fragment_player.xml" value="0.33" />
         <entry key="..\:/Users/ylmaz/source/repos/Android/MusicPlayer/app/src/main/res/layout/fragment_song.xml" value="0.22" />
+        <entry key="..\:/Users/ylmaz/source/repos/Android/MusicPlayer/app/src/main/res/layout/play_list_item.xml" value="0.22" />
+        <entry key="..\:/Users/ylmaz/source/repos/Android/MusicPlayer/app/src/main/res/layout/song_item.xml" value="0.33" />
+        <entry key="..\:/Users/ylmaz/source/repos/Android/MusicPlayer/app/src/main/res/menu/song_item_menu.xml" value="0.1" />
+        <entry key="..\:/Users/ylmaz/source/repos/Android/MusicPlayer/app/src/main/res/xml/provider_paths.xml" value="0.1" />
       </map>
     </option>
   </component>
