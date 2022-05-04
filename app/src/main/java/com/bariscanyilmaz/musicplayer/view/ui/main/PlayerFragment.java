@@ -21,10 +21,6 @@ public class PlayerFragment extends Fragment {
 
     private FragmentPlayerBinding binding;
 
-    public PlayerFragment() {
-        // Required empty public constructor
-    }
-
     public static PlayerFragment newInstance() {
         PlayerFragment fragment = new PlayerFragment();
 
@@ -42,7 +38,9 @@ public class PlayerFragment extends Fragment {
         // Inflate the layout for this fragment
         binding= FragmentPlayerBinding.inflate(inflater,container,false);
         View root = binding.getRoot();
-
+       binding.playerSong.setText("Hell Bells");
+        binding.playerArtist.setText("AC/DC");
+        Log.v("Player","Player run");
         return root;
     }
 
