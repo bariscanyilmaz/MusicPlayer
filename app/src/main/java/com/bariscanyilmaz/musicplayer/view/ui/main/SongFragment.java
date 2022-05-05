@@ -46,6 +46,8 @@ public class SongFragment extends Fragment {
     RecyclerView songRecyclerView;
     SongDataAdapter songDataAdapter;
 
+    private List<Song> songs;
+
     public static SongFragment newInstance() {
 
         SongFragment fragment = new SongFragment();
@@ -84,7 +86,6 @@ public class SongFragment extends Fragment {
     private SongDataAdapter.OnItemClickListener<Song> deleteHandler=new SongDataAdapter.OnItemClickListener<Song>() {
         @Override
         public void onItemClick(Song data) {
-            //mpViewModel.setChosenSong(data);
 
             File file = new File(data.path);
             file.delete();
@@ -92,13 +93,21 @@ public class SongFragment extends Fragment {
             MediaScannerConnection.scanFile(getContext(),
                     new String[]{file.toString()},
                     new String[]{file.getName()},null);
+
+            if(songs.remove(data)){
+                viewModel.setSongs(songs);
+            }
         }
     };
 
     private SongDataAdapter.OnItemClickListener<Song> addtoPlayListHandler=new SongDataAdapter.OnItemClickListener<Song>() {
         @Override
         public void onItemClick(Song data) {
-            //TODO implement play list
+
+            //TODO implement add to playlist
+            //show model and add to list
+
+
         }
     };
 
@@ -139,7 +148,8 @@ public class SongFragment extends Fragment {
         @Override
         public void onChanged(List<Song> songs) {
 
-            Log.v("Song","songs recieved and send to adapter");
+            SongFragment.this.songs=songs;
+
             songDataAdapter.setSongs(songs);
         }
 
