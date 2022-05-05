@@ -68,6 +68,7 @@ public class RegisterActivity extends AppCompatActivity {
     public void register(View view){
 
         //TODO user image
+        //TODO send email
         String email = binding.registerEmail.getText().toString();
         String fullName = binding.registerFullname.getText().toString();
         String password = binding.registerPassword.getText().toString();

@@ -8,4 +8,6 @@
     <string name="fragment_player">Player Fragment</string>
     <string name="fragment_play_list">Play List Fragment</string>
     <string name="fragment_song">Song Fragment</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

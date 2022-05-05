@@ -13,6 +13,8 @@ import android.os.Bundle;
 import com.bariscanyilmaz.musicplayer.R;
 import com.bariscanyilmaz.musicplayer.model.PlaySong;
 import com.bariscanyilmaz.musicplayer.model.Song;
+import com.bariscanyilmaz.musicplayer.roomdb.AppDatabase;
+import com.bariscanyilmaz.musicplayer.roomdb.PlayListDao;
 import com.bariscanyilmaz.musicplayer.utils.MediaPlayerController;
 import com.bariscanyilmaz.musicplayer.view.ui.main.MediaPlayerViewModel;
 import com.bariscanyilmaz.musicplayer.view.ui.main.PlayerFragment;
@@ -26,6 +28,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.provider.MediaStore;
@@ -76,13 +80,16 @@ public class MainActivity extends AppCompatActivity {
                 (tab,position)->tab.setText(tabLayouts[position])
         ).attach();
 
-        //FloatingActionButton fab = binding.fab;
+
 
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
+                //mediaPlayer.pause();
+                Log.v("MediaPlayer","Song end");
                 next();
             }
+
         });
 
         songViewModel=new ViewModelProvider(this).get(SongViewModel.class);
@@ -102,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
                 currentSongList=playSong.songs;
                 currentSongIndex=playSong.index;
                 play();
+                
             }else{
 
                 if(currentSongList.equals(playSong.songs))
@@ -144,7 +152,6 @@ public class MainActivity extends AppCompatActivity {
             play();
         }
     }
-
 
     private void play(){
         mediaPlayer.reset();
@@ -189,7 +196,6 @@ public class MainActivity extends AppCompatActivity {
         Log.v("Songs","Size:"+list.size());
         return list;
     }
-
 
     public void playButton(View v){
         PlayerFragment.play();

@@ -8,10 +8,12 @@
         <entry key="..\:/Users/ylmaz/source/repos/Android/MusicPlayer/app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="..\:/Users/ylmaz/source/repos/Android/MusicPlayer/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/Users/ylmaz/source/repos/Android/MusicPlayer/app/src/main/res/layout/activity_register.xml" value="0.1" />
+        <entry key="..\:/Users/ylmaz/source/repos/Android/MusicPlayer/app/src/main/res/layout/bottom_sheet_item.xml" value="0.33" />
         <entry key="..\:/Users/ylmaz/source/repos/Android/MusicPlayer/app/src/main/res/layout/fragment_main.xml" value="0.25" />
         <entry key="..\:/Users/ylmaz/source/repos/Android/MusicPlayer/app/src/main/res/layout/fragment_play_list.xml" value="0.2" />
         <entry key="..\:/Users/ylmaz/source/repos/Android/MusicPlayer/app/src/main/res/layout/fragment_player.xml" value="0.33" />
         <entry key="..\:/Users/ylmaz/source/repos/Android/MusicPlayer/app/src/main/res/layout/fragment_song.xml" value="0.22" />
+        <entry key="..\:/Users/ylmaz/source/repos/Android/MusicPlayer/app/src/main/res/layout/play_list_bottom_sheet_dialog.xml" value="0.19927536231884058" />
         <entry key="..\:/Users/ylmaz/source/repos/Android/MusicPlayer/app/src/main/res/layout/play_list_item.xml" value="0.22" />
         <entry key="..\:/Users/ylmaz/source/repos/Android/MusicPlayer/app/src/main/res/layout/song_item.xml" value="0.33" />
         <entry key="..\:/Users/ylmaz/source/repos/Android/MusicPlayer/app/src/main/res/menu/song_item_menu.xml" value="0.1" />
