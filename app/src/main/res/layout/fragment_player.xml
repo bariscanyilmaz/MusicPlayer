@@ -13,12 +13,12 @@
         android:layout_marginTop="100dp"
         android:layout_marginEnd="76dp"
         android:onClick="nextButton"
-        android:src="@android:drawable/ic_media_next"
         android:radius="15dp"
+        android:src="@android:drawable/ic_media_next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/playerSongAlbumCover"
-        tools:ignore="SpeakableTextPresentCheck"
-        app:tint="@color/black" />
+        app:tint="@color/black"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <ImageButton
         android:id="@+id/playerPrevious"
@@ -27,12 +27,12 @@
         android:layout_marginStart="80dp"
         android:layout_marginTop="100dp"
         android:onClick="prevButton"
-        android:src="@android:drawable/ic_media_previous"
         android:radius="15dp"
+        android:src="@android:drawable/ic_media_previous"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/playerSongAlbumCover"
-        tools:ignore="SpeakableTextPresentCheck"
-        app:tint="@color/black" />
+        app:tint="@color/black"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 
     <ImageButton
@@ -89,12 +89,14 @@
 
     <TextView
         android:id="@+id/playerSong"
-        android:layout_width="wrap_content"
-        android:layout_height="19dp"
-        android:layout_marginStart="169dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="169dp"
-        android:text="Song Name"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="84dp"
+        android:gravity="center"
+        android:text="Hello World"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -102,11 +104,13 @@
 
     <TextView
         android:id="@+id/playerArtist"
-        android:layout_width="wrap_content"
-        android:layout_height="19dp"
-        android:layout_marginStart="188dp"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="84dp"
         android:layout_marginTop="52dp"
-        android:layout_marginEnd="189dp"
+        android:layout_marginEnd="84dp"
+        android:gravity="center"
         android:text="Artist"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
