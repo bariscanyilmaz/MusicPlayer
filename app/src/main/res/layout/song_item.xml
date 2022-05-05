@@ -52,8 +52,8 @@
 
     <TextView
         android:id="@+id/songItemArtistName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="137dp"
+        android:layout_height="20dp"
         android:layout_marginStart="36dp"
         android:text="Manga"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -64,7 +64,7 @@
     <TextView
         android:id="@+id/songItemName"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
         android:layout_marginStart="36dp"
         android:text="We could be the same"
         app:layout_constraintBottom_toBottomOf="parent"

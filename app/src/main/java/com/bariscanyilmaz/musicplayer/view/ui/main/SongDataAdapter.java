@@ -139,8 +139,6 @@ public class SongDataAdapter extends RecyclerView.Adapter<SongDataAdapter.ViewHo
         public ImageView songIcon;
         public ImageButton playButton;
 
-        //TODO add menu button to top
-
         public ImageButton moreButton;
 
         public ViewHolder(@NonNull View itemView) {
