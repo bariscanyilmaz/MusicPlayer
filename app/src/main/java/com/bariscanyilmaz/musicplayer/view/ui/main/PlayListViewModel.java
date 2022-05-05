@@ -1,5 +1,7 @@
 package com.bariscanyilmaz.musicplayer.view.ui.main;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -18,6 +20,13 @@ public class PlayListViewModel extends ViewModel {
 
     public LiveData<List<PlayList>> getPlayLists(){
         return playLists;
+    }
+
+    public void addNewList(PlayList list){
+        List<PlayList> l=this.playLists.getValue();
+        Log.v("List",""+l.size());
+        l.add(list);
+        setPlayLists(l);
     }
 
 }
