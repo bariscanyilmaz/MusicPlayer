@@ -1,8 +1,11 @@
 package com.bariscanyilmaz.musicplayer.view.ui.main;
 
+import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -22,10 +25,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.bariscanyilmaz.musicplayer.databinding.FragmentSongBinding;
+import com.bariscanyilmaz.musicplayer.model.PlayList;
 import com.bariscanyilmaz.musicplayer.model.PlaySong;
 import com.bariscanyilmaz.musicplayer.model.Song;
+import com.bariscanyilmaz.musicplayer.utils.AppSettings;
+import com.bariscanyilmaz.musicplayer.utils.SaveSystem;
 
 import java.io.File;
 import java.net.URI;
@@ -43,10 +50,13 @@ public class SongFragment extends Fragment {
 
     private SongViewModel viewModel;
     private MediaPlayerViewModel mpViewModel;
+    private PlayListViewModel playListViewModel;
     RecyclerView songRecyclerView;
     SongDataAdapter songDataAdapter;
 
+    SharedPreferences sharedPreferences;
     private List<Song> songs;
+    private List<PlayList> playLists;
 
     public static SongFragment newInstance() {
 
@@ -60,7 +70,8 @@ public class SongFragment extends Fragment {
         super.onCreate(savedInstanceState);
         viewModel=new ViewModelProvider(getActivity()).get(SongViewModel.class);
         mpViewModel=new ViewModelProvider(getActivity()).get(MediaPlayerViewModel.class);
-
+        playListViewModel=new ViewModelProvider(getActivity()).get(PlayListViewModel.class);
+        sharedPreferences=getActivity().getSharedPreferences(AppSettings.APP_SHARED_PREFS,Context.MODE_PRIVATE);
     }
 
     private SongDataAdapter.OnItemClickListener<PlaySong> playHandler=new SongDataAdapter.OnItemClickListener<PlaySong>() {
@@ -104,10 +115,48 @@ public class SongFragment extends Fragment {
         @Override
         public void onItemClick(Song data) {
 
-            //TODO implement add to playlist
-            //show model and add to list
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
 
+            alertDialog.setTitle("Choose an list");
 
+            String[] arr=new String[playLists.size()];
+            for (int i=0;i<arr.length;i++){
+                arr[i]=playLists.get(i).name;
+            }
+
+            alertDialog.setSingleChoiceItems(arr ,-1, new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                     PlayList chosen=playLists.get(i);
+                     chosen.songList.add(data);
+
+                     SaveSystem.savePlayList(sharedPreferences,playLists);
+
+                     playListViewModel.setPlayLists(playLists);
+
+                    Toast.makeText(getContext(), data.name+" added to "+chosen.name+" successfully", Toast.LENGTH_SHORT).show();
+                    dialogInterface.dismiss();
+                }
+            });
+
+            alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                }
+            });
+
+            alertDialog.show();
+
+        }
+    };
+
+    private Observer<List<PlayList>> updatePlayLists=new Observer<List<PlayList>>(){
+
+        @Override
+        public void onChanged(List<PlayList> list) {
+            playLists=list;
         }
     };
 
@@ -127,6 +176,7 @@ public class SongFragment extends Fragment {
 
         viewModel.getSongs().observe(getViewLifecycleOwner(),updateSongList);
 
+        playListViewModel.getPlayLists().observe(getViewLifecycleOwner(),updatePlayLists);
 
         View root=binding.getRoot();
 
@@ -139,8 +189,6 @@ public class SongFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
     }
-
-
 
 
     private Observer<List<Song>> updateSongList= new Observer<List<Song>>() {
