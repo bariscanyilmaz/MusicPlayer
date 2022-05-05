@@ -3,6 +3,7 @@ package com.bariscanyilmaz.musicplayer.view;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.media.MediaDataSource;
@@ -11,12 +12,16 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import com.bariscanyilmaz.musicplayer.R;
+import com.bariscanyilmaz.musicplayer.model.PlayList;
 import com.bariscanyilmaz.musicplayer.model.PlaySong;
 import com.bariscanyilmaz.musicplayer.model.Song;
 import com.bariscanyilmaz.musicplayer.roomdb.AppDatabase;
 import com.bariscanyilmaz.musicplayer.roomdb.PlayListDao;
+import com.bariscanyilmaz.musicplayer.utils.AppSettings;
 import com.bariscanyilmaz.musicplayer.utils.MediaPlayerController;
+import com.bariscanyilmaz.musicplayer.utils.SaveSystem;
 import com.bariscanyilmaz.musicplayer.view.ui.main.MediaPlayerViewModel;
+import com.bariscanyilmaz.musicplayer.view.ui.main.PlayListViewModel;
 import com.bariscanyilmaz.musicplayer.view.ui.main.PlayerFragment;
 import com.bariscanyilmaz.musicplayer.view.ui.main.SongViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -24,8 +29,10 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.room.Room;
@@ -39,14 +46,18 @@ import android.view.View;
 import com.bariscanyilmaz.musicplayer.view.ui.main.SectionsPagerAdapter;
 import com.bariscanyilmaz.musicplayer.databinding.ActivityMainBinding;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.security.Permission;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-
+    SharedPreferences sharedPreferences;
 
     private final MediaPlayer mediaPlayer=MediaPlayerController.getInstance();
 
@@ -59,16 +70,18 @@ public class MainActivity extends AppCompatActivity {
     private final int[] tabLayouts=new int[]{R.string.tab_song,R.string.tab_play_list,R.string.tab_player};
 
     private SongViewModel songViewModel;
-
+    private PlayListViewModel playListViewModel;
     private MediaPlayerViewModel currentPlayerViewModel;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //TODO check permissions runtime
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        String[] mPermission=new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.MANAGE_MEDIA};
+
+        //TODO check permissions runtime
 
         sectionsPagerAdapter= new SectionsPagerAdapter(this);
         ViewPager2 viewPager = binding.viewPager;
@@ -80,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                 (tab,position)->tab.setText(tabLayouts[position])
         ).attach();
 
-
+        sharedPreferences=getApplicationContext().getSharedPreferences(AppSettings.APP_SHARED_PREFS, Context.MODE_PRIVATE);
 
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
@@ -93,10 +106,57 @@ public class MainActivity extends AppCompatActivity {
         });
 
         songViewModel=new ViewModelProvider(this).get(SongViewModel.class);
-        songViewModel.setSongs(getSongs(this));
+        if(checkPermissions()){
+            songViewModel.setSongs(getSongs(this));
+        }else {
+            try {
+                if (ActivityCompat.checkSelfPermission(this, mPermission[0])
+                        != PackageManager.PERMISSION_GRANTED ||
+                        ActivityCompat.checkSelfPermission(this, mPermission[1])
+                                != PackageManager.PERMISSION_GRANTED ||
+                        ActivityCompat.checkSelfPermission(this, mPermission[2])
+                                != PackageManager.PERMISSION_GRANTED ||
+                        ActivityCompat.checkSelfPermission(this, mPermission[3])
+                                != PackageManager.PERMISSION_GRANTED) {
+
+                    ActivityCompat.requestPermissions(this,
+                            mPermission, 101);
+
+                    // If any permission aboe not allowed by user, this condition will execute every tim, else your else part will work
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
 
         currentPlayerViewModel=new ViewModelProvider(this).get(MediaPlayerViewModel.class);
         currentPlayerViewModel.getChosenSong().observe(this, updatePlayerSong);
+
+        playListViewModel=new ViewModelProvider(this).get(PlayListViewModel.class);
+
+        playListViewModel.setPlayLists(SaveSystem.getPlayLists(sharedPreferences));
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.v("Req Code", "" + requestCode);
+        if (requestCode == 101) {
+            if (grantResults.length == 3 &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED ||
+                    grantResults[1] == PackageManager.PERMISSION_GRANTED ||
+                    grantResults[2] == PackageManager.PERMISSION_GRANTED) {
+
+
+                Log.v("Permission","all permissions granted");
+                songViewModel.setSongs(getSongs(getApplicationContext()));
+
+            }
+        }
+
 
 
     }
@@ -144,10 +204,12 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private void next(){
+        if (currentSongList==null) return;
+
+
         if (currentSongIndex+1<currentSongList.size()){
             currentSongIndex++;
             play();
-
         }
     }
     private void prev(){
@@ -158,6 +220,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void play(){
+        if(currentSongList==null) return;
+
         mediaPlayer.reset();
         Song chosen=currentSongList.get(currentSongIndex);
         try {
@@ -173,7 +237,24 @@ public class MainActivity extends AppCompatActivity {
         mediaPlayer.pause();
     }
 
+    public boolean checkPermissions(){
+        if(
+                ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.MANAGE_MEDIA)!= PackageManager.PERMISSION_GRANTED
+
+                        || ContextCompat.checkSelfPermission(getApplicationContext(),Manifest.permission.READ_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED
+                        ||
+                        ContextCompat.checkSelfPermission(getApplicationContext(),Manifest.permission.WRITE_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
     public ArrayList<Song> getSongs(final Context context){
+
+
+
         ArrayList<Song> list = new ArrayList<Song>();
 
         Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
@@ -204,8 +285,6 @@ public class MainActivity extends AppCompatActivity {
         return list;
     }
 
-
-
     public void playPauseButton(View v){
         if (mediaPlayer.isPlaying()){
             pause();
@@ -222,6 +301,8 @@ public class MainActivity extends AppCompatActivity {
     {
         prev();
     }
+
+
 
 }
 
