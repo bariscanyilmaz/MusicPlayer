@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
                 currentSongList=playSong.songs;
                 currentSongIndex=playSong.index;
                 play();
-                
+
             }else{
 
                 if(currentSongList.equals(playSong.songs))
@@ -119,9 +119,13 @@ public class MainActivity extends AppCompatActivity {
                     if(currentSongIndex==playSong.index){
 
                         if(mediaPlayer.isPlaying()){
+
                             mediaPlayer.pause();
+
                         }else{
+
                             mediaPlayer.start();
+
                         }
 
                     }else{
@@ -165,6 +169,9 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+    private void pause(){
+        mediaPlayer.pause();
+    }
 
     public ArrayList<Song> getSongs(final Context context){
         ArrayList<Song> list = new ArrayList<Song>();
@@ -197,19 +204,24 @@ public class MainActivity extends AppCompatActivity {
         return list;
     }
 
-    public void playButton(View v){
-        PlayerFragment.play();
+
+
+    public void playPauseButton(View v){
+        if (mediaPlayer.isPlaying()){
+            pause();
+        }else{
+            mediaPlayer.start();
+        }
     }
 
     public void nextButton(View v){
-        PlayerFragment.next();
+
+        next();
     }
-    public void prevButton(View v){
-        PlayerFragment.prev();
+    public void prevButton(View v)
+    {
+        prev();
     }
-
-
-
 
 }
 
