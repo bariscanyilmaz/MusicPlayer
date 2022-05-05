@@ -1,7 +1,9 @@
 package com.bariscanyilmaz.musicplayer.view.ui.main;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -27,6 +29,9 @@ import com.bariscanyilmaz.musicplayer.model.Song;
 import com.bariscanyilmaz.musicplayer.roomdb.AppDatabase;
 import com.bariscanyilmaz.musicplayer.roomdb.PlayListDao;
 import com.bariscanyilmaz.musicplayer.roomdb.SongListDataConverter;
+import com.bariscanyilmaz.musicplayer.utils.AppSettings;
+import com.bariscanyilmaz.musicplayer.utils.SaveSystem;
+import com.bariscanyilmaz.musicplayer.view.MainActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -52,7 +57,7 @@ public class PlayListFragment extends Fragment {
 
     private SongViewModel songViewModel;
     private List<Song> songs;
-
+    private SharedPreferences sharedPreferences;
     private List<PlayList> playLists=new ArrayList<>();
 
     public static PlayListFragment newInstance() {
@@ -70,6 +75,7 @@ public class PlayListFragment extends Fragment {
         songViewModel=new ViewModelProvider(getActivity()).get(SongViewModel.class);
         db= Room.databaseBuilder(getActivity(), AppDatabase.class,"app-db").allowMainThreadQueries().build();
         playListDao=db.playListDao();
+        sharedPreferences=getActivity().getSharedPreferences(AppSettings.APP_SHARED_PREFS, Context.MODE_PRIVATE);
     }
 
     @Override
@@ -97,7 +103,7 @@ public class PlayListFragment extends Fragment {
         });
 
         playListRecyclerView=binding.playlistRecyclerView;
-        playListDataAdapter=new PlayListDataAdapter(getActivity());
+        playListDataAdapter=new PlayListDataAdapter(getActivity(),deleteList);
 
         //set playlist here
         playListRecyclerView.setAdapter(playListDataAdapter);
@@ -110,6 +116,15 @@ public class PlayListFragment extends Fragment {
 
         return root;
     }
+
+    private PlayListDataAdapter.OnItemClickListener<PlayList> deleteList=new PlayListDataAdapter.OnItemClickListener<PlayList>() {
+        @Override
+        public void onItemClick(PlayList data) {
+            playLists.remove(data);
+            SaveSystem.savePlayList(sharedPreferences,playLists);
+            playListViewModel.setPlayLists(playLists);
+        }
+    };
 
     private View.OnClickListener addNewPlayListListener=new View.OnClickListener() {
 
@@ -137,8 +152,6 @@ public class PlayListFragment extends Fragment {
     };
 
     private void positiveButtonHandler(AlertDialog.Builder builder,EditText input){
-
-        ArrayList<Boolean> checkedItems= new ArrayList<Boolean>();
 
         builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
 
@@ -191,6 +204,8 @@ public class PlayListFragment extends Fragment {
             PlayList list= new PlayList(listName);
             list.songList=songs;
             this.playLists.add(list);
+
+            SaveSystem.savePlayList(sharedPreferences,playLists);
             playListViewModel.setPlayLists(this.playLists);
 
     }

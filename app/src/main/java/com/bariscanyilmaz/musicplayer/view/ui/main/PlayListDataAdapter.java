@@ -26,11 +26,19 @@ public class PlayListDataAdapter extends RecyclerView.Adapter<PlayListDataAdapte
 
     private Context context;
 
-    public PlayListDataAdapter(Context context){
+    private OnItemClickListener<PlayList> playListOnLongItemClickListener;
+    public PlayListDataAdapter(
+            Context context,
+             OnItemClickListener<PlayList> playListOnLongItemClickListener){
 
+        this.playListOnLongItemClickListener=playListOnLongItemClickListener;
         this.context=context;
         this.playLists=new ArrayList<>();
 
+    }
+
+    public interface OnItemClickListener<T> {
+        void onItemClick(T data);
     }
 
     public void setPlayLists(List<PlayList> playLists){
@@ -61,7 +69,6 @@ public class PlayListDataAdapter extends RecyclerView.Adapter<PlayListDataAdapte
         holder.playListLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO show bottom sheet and play the list if click;
 
                 PlayListBottomSheetDialogFragment dialogFragment=new PlayListBottomSheetDialogFragment(playList.songList);
                 dialogFragment.show(((AppCompatActivity)context).getSupportFragmentManager(),dialogFragment.getTag());
@@ -72,9 +79,10 @@ public class PlayListDataAdapter extends RecyclerView.Adapter<PlayListDataAdapte
         holder.playListLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                //long click delete list
-                //TODO delete list
-                return false;
+
+
+                playListOnLongItemClickListener.onItemClick(playList);
+                return true;
             }
         });
 
@@ -82,6 +90,8 @@ public class PlayListDataAdapter extends RecyclerView.Adapter<PlayListDataAdapte
 
     @Override
     public int getItemCount() {
+        if (playLists==null) return 0;
+
         return playLists.size();
     }
 

@@ -66,7 +66,7 @@ public class PlayerFragment extends Fragment {
         totalTime=binding.playerTotalTime;
         artistName=binding.playerArtist;
         musicName=binding.playerSong;
-
+        currentTime.setText("0:00");
         seekBar=binding.playerSeekBar;
 
         View root = binding.getRoot();
@@ -141,7 +141,7 @@ public class PlayerFragment extends Fragment {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(mediaPlayer!=null){
+                if(mediaPlayer!=null && playSong!=null){
                     seekBar.setProgress(mediaPlayer.getCurrentPosition());
                     currentTime.setText(TimeConverter.convertToMMSS(mediaPlayer.getCurrentPosition()+""));
 
