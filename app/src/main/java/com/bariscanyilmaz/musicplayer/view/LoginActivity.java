@@ -1,11 +1,15 @@
 package com.bariscanyilmaz.musicplayer.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.room.Room;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,10 +19,10 @@ import android.widget.Toast;
 import com.bariscanyilmaz.musicplayer.databinding.ActivityLoginBinding;
 import com.bariscanyilmaz.musicplayer.model.User;
 import com.bariscanyilmaz.musicplayer.roomdb.AppDatabase;
+import com.bariscanyilmaz.musicplayer.utils.AppSettings;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final String APP_SHARED_PREFS = "music_player_preferences";
     SharedPreferences sharedPreferences;
     private ActivityLoginBinding binding;
 
@@ -34,7 +38,6 @@ public class LoginActivity extends AppCompatActivity {
         View view=binding.getRoot();
         setContentView(view);
         db= Room.databaseBuilder(getApplicationContext(), AppDatabase.class,"app-db").allowMainThreadQueries().build();
-
         binding.loginUserPassword.addTextChangedListener(textWatcher);
         binding.loginUserEmail.addTextChangedListener(textWatcher);
 
@@ -63,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        sharedPreferences=getApplicationContext().getSharedPreferences(APP_SHARED_PREFS, Context.MODE_PRIVATE);
+        sharedPreferences=getApplicationContext().getSharedPreferences(AppSettings.APP_SHARED_PREFS, Context.MODE_PRIVATE);
         boolean isUserLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
         if(isUserLoggedIn){//redirect to songs
             redirectToMain();
@@ -119,5 +122,8 @@ public class LoginActivity extends AppCompatActivity {
     public void createAccount(View view){
         redirectToRegister();
     }
+
+
+
 
 }
