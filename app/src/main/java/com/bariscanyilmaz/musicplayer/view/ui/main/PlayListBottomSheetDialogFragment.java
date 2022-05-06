@@ -3,6 +3,7 @@ package com.bariscanyilmaz.musicplayer.view.ui.main;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.bariscanyilmaz.musicplayer.R;
 import com.bariscanyilmaz.musicplayer.databinding.PlayListBottomSheetDialogBinding;
+import com.bariscanyilmaz.musicplayer.model.PlayList;
 import com.bariscanyilmaz.musicplayer.model.PlaySong;
 import com.bariscanyilmaz.musicplayer.model.Song;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -24,12 +26,13 @@ public class PlayListBottomSheetDialogFragment extends BottomSheetDialogFragment
 
     //use live data again
     private MediaPlayerViewModel mpViewModel;
-    private PlayListBottomSheetDialogBinding binding;
-    private List<Song> songs;
 
-    public PlayListBottomSheetDialogFragment(List<Song> songs) {
+    private PlayListBottomSheetDialogBinding binding;
+    private PlayList playList;
+    private List<PlayList> playLists;
+    public PlayListBottomSheetDialogFragment(PlayList playList) {
         // Required empty public constructor
-        this.songs=songs;
+        this.playList=playList;
     }
 
     RecyclerView recyclerView;
@@ -50,7 +53,7 @@ public class PlayListBottomSheetDialogFragment extends BottomSheetDialogFragment
 
 
         recyclerView=binding.bottomSheetRecyclerView;
-        dataAdapter=new PlayListBottomSheetDataAdapter(this.songs, new PlayListBottomSheetDataAdapter.OnItemClickListener<PlaySong>() {
+        dataAdapter=new PlayListBottomSheetDataAdapter(this.playList.songList, new PlayListBottomSheetDataAdapter.OnItemClickListener<PlaySong>() {
             @Override
             public void onItemClick(PlaySong data) {
                 mpViewModel.setChosenSong(data);

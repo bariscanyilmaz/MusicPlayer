@@ -70,7 +70,7 @@ public class PlayListDataAdapter extends RecyclerView.Adapter<PlayListDataAdapte
             @Override
             public void onClick(View view) {
 
-                PlayListBottomSheetDialogFragment dialogFragment=new PlayListBottomSheetDialogFragment(playList.songList);
+                PlayListBottomSheetDialogFragment dialogFragment=new PlayListBottomSheetDialogFragment(playList);
                 dialogFragment.show(((AppCompatActivity)context).getSupportFragmentManager(),dialogFragment.getTag());
 
             }

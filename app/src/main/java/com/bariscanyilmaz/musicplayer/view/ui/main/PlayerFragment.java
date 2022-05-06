@@ -78,7 +78,6 @@ public class PlayerFragment extends Fragment {
             public void onChanged(PlaySong playSong) {
                 PlayerFragment.this.playSong=playSong;
                 Song song= playSong.songs.get(playSong.index);
-
                 totalTime.setText(TimeConverter.convertToMMSS(song.duration));
                 musicName.setText(song.name);
                 artistName.setText(song.artist);
