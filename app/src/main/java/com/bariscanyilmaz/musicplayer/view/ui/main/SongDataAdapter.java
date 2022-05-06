@@ -87,19 +87,19 @@ public class SongDataAdapter extends RecyclerView.Adapter<SongDataAdapter.ViewHo
             }
         });
 
-        holder.moreButton.setOnClickListener(moreButtonOnClickListener);
+        holder.moreButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                song=songs.get(holder.getAdapterPosition());
+
+                PopupMenu menu =new PopupMenu(view.getContext(), view);
+                menu.getMenuInflater().inflate(R.menu.song_item_menu,menu.getMenu());
+
+                menu.setOnMenuItemClickListener(menuItemClickListener);
+                menu.show();
+            }
+        });
     }
-
-    private View.OnClickListener moreButtonOnClickListener=new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-
-            PopupMenu menu =new PopupMenu(view.getContext(), view);
-            menu.getMenuInflater().inflate(R.menu.song_item_menu,menu.getMenu());
-            menu.setOnMenuItemClickListener(menuItemClickListener);
-            menu.show();
-        }
-    };
 
     private PopupMenu.OnMenuItemClickListener menuItemClickListener=new PopupMenu.OnMenuItemClickListener() {
         @Override
