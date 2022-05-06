@@ -120,11 +120,35 @@ public class PlayListFragment extends Fragment {
     private PlayListDataAdapter.OnItemClickListener<PlayList> deleteList=new PlayListDataAdapter.OnItemClickListener<PlayList>() {
         @Override
         public void onItemClick(PlayList data) {
-            playLists.remove(data);
-            SaveSystem.savePlayList(sharedPreferences,playLists);
-            playListViewModel.setPlayLists(playLists);
+
+            //show approval
+            AlertDialog.Builder alert=new AlertDialog.Builder(getActivity());
+            alert.setTitle("Delete List");
+            alert.setMessage("Confirm "+data.name+" will be deleted");
+            alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                    playLists.remove(data);
+                    SaveSystem.savePlayList(sharedPreferences,playLists);
+                    playListViewModel.setPlayLists(playLists);
+                    dialogInterface.dismiss();
+                }
+            });
+
+            //
+            alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                }
+            });
+
+            alert.show();
         }
     };
+
+
 
     private View.OnClickListener addNewPlayListListener=new View.OnClickListener() {
 
