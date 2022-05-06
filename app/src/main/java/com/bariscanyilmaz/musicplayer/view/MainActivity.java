@@ -208,15 +208,23 @@ public class MainActivity extends AppCompatActivity {
     private void next(){
         if (currentSongList==null) return;
 
-
         if (currentSongIndex+1<currentSongList.size()){
             currentSongIndex++;
+
+            PlaySong playSong=new PlaySong(currentSongIndex,currentSongList);
+
+            currentPlayerViewModel.setChosenSong(playSong);
+
             play();
         }
     }
     private void prev(){
         if (currentSongIndex-1>=0){
             currentSongIndex--;
+
+            PlaySong playSong=new PlaySong(currentSongIndex,currentSongList);
+            currentPlayerViewModel.setChosenSong(playSong);
+
             play();
         }
     }
@@ -269,7 +277,7 @@ public class MainActivity extends AppCompatActivity {
 
         Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
         Log.v("Uri",uri.toString());
-        String[] projection = {MediaStore.Audio.AudioColumns.DATA, MediaStore.Audio.AudioColumns.DURATION, MediaStore.Audio.ArtistColumns.ARTIST,};
+        String[] projection = {MediaStore.Audio.AudioColumns.DATA,MediaStore.Audio.AudioColumns.TITLE,MediaStore.Audio.AudioColumns.DURATION, MediaStore.Audio.ArtistColumns.ARTIST,};
         String selection = MediaStore.Audio.Media.IS_MUSIC +" != 0";
         //MediaStore.Audio.AudioColumns.DATA + " like ? "
         Cursor c = context.getContentResolver().query(uri, projection, selection, null, null);
@@ -280,10 +288,9 @@ public class MainActivity extends AppCompatActivity {
 
 
                 String path = c.getString(0);
-                String duration = c.getString(1);
-                String artist = c.getString(2);
-
-                String name = path.substring(path.lastIndexOf("/") + 1);
+                String name = c.getString(1);
+                String duration = c.getString(2);
+                String artist = c.getString(3);
 
                 Song song = new Song(name,path,duration,artist);
 
