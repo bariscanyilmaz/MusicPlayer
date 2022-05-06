@@ -42,6 +42,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.bariscanyilmaz.musicplayer.view.ui.main.SectionsPagerAdapter;
 import com.bariscanyilmaz.musicplayer.databinding.ActivityMainBinding;
@@ -49,6 +50,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.security.Permission;
@@ -225,6 +227,14 @@ public class MainActivity extends AppCompatActivity {
         mediaPlayer.reset();
         Song chosen=currentSongList.get(currentSongIndex);
         try {
+
+            File f=new File(chosen.path);
+
+            if(!f.exists()) {
+                Toast.makeText(getApplicationContext(), chosen.name+" is deleted", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             mediaPlayer.setDataSource(chosen.path);
             mediaPlayer.prepare();
             mediaPlayer.start();
