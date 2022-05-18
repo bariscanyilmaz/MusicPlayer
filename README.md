@@ -6,7 +6,9 @@ YTU CE BLM3520 Introduction to Mobile Programming Homework II Music Player Appli
 Barış Can Yılmaz
 19011707
 
-APK file could be find in [release](https://github.com/bariscanyilmaz/MusicPlayer/tree/main/app/release) folder or [releases section](https://github.com/bariscanyilmaz/MusicPlayer/releases/tag/v1.0) 
+APK file can be find in [release](https://github.com/bariscanyilmaz/MusicPlayer/tree/main/app/release) folder or latest release in [releases section](https://github.com/bariscanyilmaz/MusicPlayer/releases/) 
+
+Youtube video [link](https://www.youtube.com/watch?v=O52CCWKsEB8)
 
 ```
 mindSdk 26    Android 8.0
