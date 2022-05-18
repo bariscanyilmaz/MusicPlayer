@@ -3,11 +3,14 @@ package com.bariscanyilmaz.musicplayer.view;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.media.MediaDataSource;
 import android.media.MediaPlayer;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -17,6 +20,7 @@ import com.bariscanyilmaz.musicplayer.model.PlaySong;
 import com.bariscanyilmaz.musicplayer.model.Song;
 import com.bariscanyilmaz.musicplayer.roomdb.AppDatabase;
 import com.bariscanyilmaz.musicplayer.roomdb.PlayListDao;
+import com.bariscanyilmaz.musicplayer.services.SensorReceiver;
 import com.bariscanyilmaz.musicplayer.utils.AppSettings;
 import com.bariscanyilmaz.musicplayer.utils.MediaPlayerController;
 import com.bariscanyilmaz.musicplayer.utils.SaveSystem;
@@ -66,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
     int currentSongIndex;
     List<Song> currentSongList;
 
+    private final String sensorBroadcast="com.bariscanyilmaz.musicsensor.MUSIC_SENSOR";
 
     private ActivityMainBinding binding;
     private SectionsPagerAdapter sectionsPagerAdapter;
@@ -75,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
     private PlayListViewModel playListViewModel;
     private MediaPlayerViewModel currentPlayerViewModel;
 
+    private SensorReceiver  sensorReceiver=new SensorReceiver();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
                     ActivityCompat.requestPermissions(this,
                             mPermission, 101);
 
-                    // If any permission aboe not allowed by user, this condition will execute every tim, else your else part will work
+                    // If any permission above not allowed by user, this condition will execute every tim, else your else part will work
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -140,6 +146,14 @@ public class MainActivity extends AppCompatActivity {
 
         playListViewModel.setPlayLists(SaveSystem.getPlayLists(sharedPreferences));
 
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        IntentFilter filter=new IntentFilter(sensorBroadcast);
+        registerReceiver(sensorReceiver,filter);
     }
 
     @Override
@@ -319,7 +333,15 @@ public class MainActivity extends AppCompatActivity {
         prev();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(sensorReceiver);
+    }
 }
 
